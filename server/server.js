@@ -59,6 +59,7 @@ mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB');
+    console.log('JWT_SECRET:', process.env.JWT_SECRET ? 'Loaded' : 'Missing');
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });

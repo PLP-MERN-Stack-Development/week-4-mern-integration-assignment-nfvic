@@ -4,10 +4,7 @@ import axios from 'axios';
 
 // Create axios instance with base URL
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  baseURL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000/api',
 });
 
 // Add request interceptor for authentication
@@ -58,13 +55,17 @@ export const postService = {
 
   // Create a new post
   createPost: async (postData) => {
-    const response = await api.post('/posts', postData);
+    // If postData is FormData, don't set Content-Type header
+    const config = postData instanceof FormData ? {} : {};
+    const response = await api.post('/posts', postData, config);
     return response.data;
   },
 
   // Update an existing post
   updatePost: async (id, postData) => {
-    const response = await api.put(`/posts/${id}`, postData);
+    // If postData is FormData, don't set Content-Type header
+    const config = postData instanceof FormData ? {} : {};
+    const response = await api.put(`/posts/${id}`, postData, config);
     return response.data;
   },
 
